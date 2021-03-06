@@ -6,6 +6,8 @@ metadata:
  labels:
   app: test
   env: test-env
+ annotations:
+    build: demo
 spec:
  containers:
  - name: nginx-test
