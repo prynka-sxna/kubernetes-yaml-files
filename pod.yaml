@@ -13,7 +13,29 @@ spec:
  - name: nginx-test
    image: nginx:alpine
    ports:
-   - containerPort: 80
+   - name: health-port
+     containerPort: 8080
+     hostPort: 8080
+   livenessProbe:
+    httpGet:
+     path: /healthz
+     port: health-port
+    initialDelaySeconds: 1
+    failureThreshold: 1
+    periodSeconds: 15
+   startupProbe:
+    tcpSocket:
+     port: 8080
+    initialDelaySeconds: 1
+    periodSeconds: 15
+    timeoutSeconds: 1
+   readinessProbe:
+    exec:
+     command:
+     - cat
+     - /tmp/healthy
+    initialDelaySeconds: 5
+    periodSeconds: 3 
  - name: redis-test
    image: redis
  
