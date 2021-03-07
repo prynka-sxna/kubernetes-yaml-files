@@ -1,0 +1,21 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+ name: nginx
+spec:
+ completions: 10
+ parallelism: 2
+ backoffLimit: 5 # max number of retries
+ activeDeadlineSeconds: 100
+ template:
+  metadata:
+   name: nginx
+   labels:
+    app: job
+  spec:
+   containers:
+   - name: nginx
+     image: nginx:1.9.1
+     command: ["/bin/sh"]
+     args: ["-c", "echo Hello World"]
+   restartPolicy: Never
